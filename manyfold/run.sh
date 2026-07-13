@@ -230,7 +230,18 @@ start_manyfold() {
 
 PUID="$(read_opt puid)"; PUID="${PUID:-1000}"
 PGID="$(read_opt pgid)"; PGID="${PGID:-1000}"
-MULTIUSER="$(read_opt multiuser)"; MULTIUSER="${MULTIUSER:-true}"
+MULTIUSER_OPT="$(read_opt multiuser)"; MULTIUSER_OPT="${MULTIUSER_OPT:-true}"
+case "${MULTIUSER_OPT,,}" in
+  true|1|yes|on|enabled)
+    MULTIUSER="enabled"
+    ;;
+  false|0|no|off|disabled)
+    MULTIUSER="disabled"
+    ;;
+  *)
+    die "multiuser must be a boolean value"
+    ;;
+esac
 LIBRARY_PATH_RAW="$(read_opt library_path)"; LIBRARY_PATH_RAW="${LIBRARY_PATH_RAW:-$DEFAULT_LIBRARY_PATH}"
 THUMBNAILS_PATH_RAW="$(read_opt thumbnails_path)"; THUMBNAILS_PATH_RAW="${THUMBNAILS_PATH_RAW:-$DEFAULT_THUMBNAILS_PATH}"
 LOG_LEVEL="$(read_opt log_level)"; LOG_LEVEL="${LOG_LEVEL:-$DEFAULT_LOG_LEVEL}"
